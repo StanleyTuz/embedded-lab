@@ -147,7 +147,7 @@ class TrafficLightController {
     }
 
     /* Now it's more of a pure function! */
-    Command update(unsigned long now) {
+    void update_state(unsigned long now) {
       // Contains state-switching logic
 
       switch (state.currentState) {
@@ -195,7 +195,6 @@ class TrafficLightController {
           }
           break;
       }
-      return produceCommand();
     }
 
     Command produceCommand() {
@@ -266,8 +265,10 @@ void loop() {
     light.requestPedestrianCrossing();
   }
 
-  // 
-  Command command_current = light.update(millis());
+  // Mutate internal FSM state
+  light.update_state(millis());
+  // Map current state to outputs
+  Command command_current = light.produceCommand();
 
   // Update hardware if the command has changed
   if (!(command_current == command_previous)) {
