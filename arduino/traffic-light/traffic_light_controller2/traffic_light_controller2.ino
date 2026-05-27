@@ -27,15 +27,18 @@ Event semantics must be defined explicitly
 
 #define PED_BUTTON_PIN 2  // can only use pins 2, 3, and some others
 
-static constexpr unsigned long GREEN_TIME_MS = 3000;
-static constexpr unsigned long YELLOW_TIME_MS = 1000;
+static constexpr unsigned long GREEN_TIME_MS = 5000;
+static constexpr unsigned long YELLOW_TIME_MS = 2000;
+static constexpr unsigned long BOTH_RED_TIME_MS = 1000;
 
 
 enum State {
-  A_GREEN,
-  A_YELLOW,
-  B_GREEN,
-  B_YELLOW
+  A_GREEN,  // Light A is green
+  A_YELLOW, // Light A is yellow
+  BOTH_RED_TO_B, // Both lights are red, B is about to turn green
+  B_GREEN,  // Light B is green
+  B_YELLOW,  // Light B is yellow
+  BOTH_RED_TO_A // Both lights are red, A is about to turn green
 };
 
 // Interrupt 
@@ -103,9 +106,17 @@ class TrafficLightController {
             stateStartTime = now;
           }
           break;
-        // If A has been yellow long enough, B turns green
         case A_YELLOW:
+          // If A has been yellow long enough, A turns red
+          // in preparation of B turning green
           if (now - stateStartTime > YELLOW_TIME_MS) {
+            state = BOTH_RED_TO_B;
+            stateStartTime = now;
+          }
+          break;
+        case BOTH_RED_TO_B:
+          // If both are red and B is ready to turn on
+          if (now - stateStartTime > BOTH_RED_TIME_MS) {
             state = B_GREEN;
             stateStartTime = now;
           }
@@ -118,6 +129,12 @@ class TrafficLightController {
           break;
         case B_YELLOW:
           if (now - stateStartTime > YELLOW_TIME_MS) {
+            state = BOTH_RED_TO_A;
+            stateStartTime = now;
+          }
+          break;
+        case BOTH_RED_TO_A:
+          if (now - stateStartTime > BOTH_RED_TIME_MS) {
             state = A_GREEN;
             stateStartTime = now;
           }
