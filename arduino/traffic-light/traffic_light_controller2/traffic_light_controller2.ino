@@ -15,6 +15,7 @@ Let's add an interrupt.
 Good embedded design is about making state explicit.
 State diagram, event table, timing rules.
 
+Embedded programming is largely about managing time, events, and state explicitly, not "writing clever code".
 */
 
 
@@ -65,15 +66,22 @@ class TrafficLightController {
     int bRed, bYellow, bGreen;
 
   public:
-    // constructor
+    /* Constructor: configure object state. Standard C++ setup. Safe to run before runtime starts.
+    Things that are just data; internal variables; configuration; pure logic.
+    "Build object in memory"
+    */
     TrafficLightController(int ar, int ay, int ag, int br, int by, int bg)
       : aRed(ar), aYellow(ay), aGreen(ag),
         bRed(br), bYellow(by), bGreen(bg),
         state(A_GREEN),
         previousState(A_GREEN),
-        stateStartTime(millis()),
+        stateStartTime(0),
         pedestrianWaiting(false) {}
-
+    
+    /* begin(): init hardware/runtime resources; Arduino/MCU setup; requires MCU runtime to exist.
+    Things that touch hardware, runtime, peripherals, interrupts, timers, serial, GPIO config.
+    "Activate the hardware"
+    */
     void begin() {
       pinMode(aRed, OUTPUT);
       pinMode(aYellow, OUTPUT);
@@ -82,6 +90,9 @@ class TrafficLightController {
       pinMode(bYellow, OUTPUT);
       pinMode(bGreen, OUTPUT);
       pinMode(PED_BUTTON_PIN, INPUT_PULLUP);
+
+      // Set start time
+      stateStartTime = millis();
 
       // Tell Arduino to invoke this function whenever the following hardware event happens.
       attachInterrupt(
@@ -181,11 +192,13 @@ TrafficLightController light(23, 25, 27, 29, 31, 33);
 
 void setup() {
   // put your setup code here, to run once:
+  /* This is an expected function for the Arduino runtime. */
   light.begin();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  /* This is an expected function for the Arduino runtime.*/
 
   // If the pedestrian requests a light --- an interrupt --- handle that
   // by transferring that event "into the FSM"; i.e., the FSM updates its
@@ -198,3 +211,13 @@ void loop() {
 
   light.update();
 }
+
+/* The sketch is basically wrapped into something like
+int main() {
+  init(); // Arduino core initialization
+  setup();
+  while (true) {
+    loop();
+  }
+}
+*/
