@@ -17,6 +17,7 @@ volatile bool pedestrianRequested = false;
 void onPedestrianButtonPress() {
   /* Callback AKA Interrupt Service Routine (ISR) AKA interrupt handler.
   
+  
   This is a "callback" because it is a function that is passed as data to
   another function (attachInterrupt) which calls it later (callback pattern).
   */
