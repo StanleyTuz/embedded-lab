@@ -239,7 +239,10 @@ Potentiometer controls brightness.
 Servo control.
 
 
-## Unit 8: Serial Communication
+## Unit 8A: Serial Communication (UART)
+
+Simplest external communication.
+
 ### Concepts
 - UART
 - TX
@@ -266,6 +269,34 @@ Accept commands.Example:
 
 Interactive menu.
 
+## Unit 8B: SPI Communications
+### Concepts
+- Synchronous serial communication
+- Clocked data transfer
+- MOSI/MISO/SCLK/SS
+- Chip select vs addressing (contrast with I2C later)
+- Master vs slave (light touch)
+
+### Learning Goal
+Understand how microcontrollers talk directly to other chips without an OS or negotiation layer.
+
+### Labs
+#### Lab 9B-A
+
+SPI concept via Arduino-to-Arduino or loopback.
+- Send bytes over SPI.
+- Observe timing with scope/logic analyzer (or Serial print fallback).
+
+#### Lab 9B-B
+
+SPI device. Try one:
+- SD card module (best real-world example)
+- SPI OLED display
+- External ADC (very educational)
+
+#### Lab 9B-C
+
+Compare UART vs SPI vs I2C. Same data sent, but different wiring and behavior.
 
 ## Unit 9: Structured Embedded Software
 ### Concepts
