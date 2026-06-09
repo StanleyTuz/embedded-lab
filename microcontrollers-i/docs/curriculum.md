@@ -64,7 +64,7 @@ Deliverable:
 - Voltage levels
 - Inputs
 - Outputs
--Pullups
+- Pullups
 - Floating inputs
 
 ### Learning Goal
