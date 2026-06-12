@@ -267,7 +267,11 @@ Accept commands.Example:
 
 #### Lab 8C
 
-Interactive menu.
+Serial configuration console for an embedded device. User must be able to
+1. View current settings
+2. Change settings
+3. Request device status
+4. Receive feedback from the device
 
 ## Unit 8B: SPI Communications
 ### Concepts
