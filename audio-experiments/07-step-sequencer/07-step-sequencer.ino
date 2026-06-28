@@ -3,9 +3,11 @@
 #include <Arduino.h>
 
 
-#define OUTPUT_PIN 8
+#define LED_PIN 8
 #define RATE_POT_PIN A0
 #define MODE_SELECT_PIN 50
+#define OUTPUT_PORT_DDR DDRA
+#define OUTPUT_PORT PORTA
 
 #define DELAY_READ_RATE_KNOB 50
 
@@ -89,9 +91,11 @@ void change_step() {
 }
 
 void setup() {
-    pinMode(OUTPUT_PIN, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
     pinMode(RATE_POT_PIN, INPUT);
     pinMode(MODE_SELECT_PIN, INPUT_PULLUP);
+    // configure the output pins
+    OUTPUT_PORT_DDR = 0xFF;
 
     step_mode = StepMode(); // defaults to 4 steps
 
@@ -104,7 +108,7 @@ void setup() {
     mode_button_pressed = false;
     mode_button_pressed_previously = false;
 
-    Serial.begin(115200);
+    // Serial.begin(115200);
 }
 
 void loop() {
@@ -123,9 +127,11 @@ void loop() {
         
         // Update the output
         uint8_t output_val = step_vals[current_step_idx];
-        analogWrite(OUTPUT_PIN, output_val);
-        Serial.print("Output val has changed to ");
-        Serial.println(output_val);
+        analogWrite(LED_PIN, output_val); // LED output
+        OUTPUT_PORT = output_val;
+
+        // Serial.print("Output val has changed to ");
+        // Serial.println(output_val);
     }
 
     // If it's time to sample the rate pot, do so

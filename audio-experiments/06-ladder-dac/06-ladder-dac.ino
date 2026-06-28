@@ -1,4 +1,4 @@
-// ------- Preamble -------- //
+/* This is just a driver for an 8-bit R-2R ladder DAC that I'm building. */
 #include <avr/io.h>
 
 // Pin definitions
@@ -9,14 +9,14 @@ int main(void) {
 
   // -------- Inits --------- //
   // Set 4 pins to output mode
-  OUTPUT_DDR = 0x0F; // P0-P3 are outputs
+  OUTPUT_DDR = 0xFF; // P0-P3 are outputs
 
   // Set values
   // OUTPUT_PORT = 0b0001; // P0 is high
-  // OUTPUT_PORT = 0b0011; // P0, P1 are high
+  // OUTPUT_PORT = 0b11111111; // P0, P1 are high
   // OUTPUT_PORT = 0b0101; // P0, P2 are high
   // OUTPUT_PORT = 0b1000; // P3 is high
-  OUTPUT_PORT = 0b1111; // all are high
+  OUTPUT_PORT = 0b00001111; // all are high
 
 
   // ------ Event loop ------ //

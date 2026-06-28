@@ -23,8 +23,10 @@ I am going to proceed in steps, from simple to more complex. I am decomposing th
 
 ### 2. Make it adhere to synth module standards
 
-1. Implement a scaling/output stage.
-2. Demonstrate "musicality" by testing it with a VCO (or some software synth).
+1. Switch to outputting analog via a DAC (instead of PWM).
+2. Implement a scaling/output stage.
+    - Take the output of the sequencer and
+3. Demonstrate "musicality" by testing it with a VCO (or some software synth).
 
 ### 3. Lower-level optimization
 
@@ -33,7 +35,7 @@ Forgo the Arduino API in favor of AVR C.
 1. Implement timer/interrupt for the step rate timing (instead of polling with `millis`).
 2. Configure low-level PWM (instead of `analogWrite`).
 
-### 4. Migrate to a MCU
+### 4. Migrate to a different MCU
 
 I have a raw ATmega168 chip. I want to migrate this sequencer to that chip.
 
