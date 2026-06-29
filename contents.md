@@ -1,0 +1,4 @@
+- `ardunio/`: ad hoc explorations with the Arduino.
+- `audio-experiments/`: playing around with digital, microcontroller-based audio.
+- `make-avr-programming/`: following along with the book "Make: AVR Programming".
+- `microcontrollers-i/`: working through a custom "Microcontrollers I" course.
