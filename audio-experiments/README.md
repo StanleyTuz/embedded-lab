@@ -31,4 +31,4 @@ For reference, I will summarize here some examples from the "Make: AVR Programmi
 4. (Chapter 10) The third PWM example uses timer interrupts to implement something like PWM on an arbitrary GPIO pin.
     1. What? **A timer interrupt-based implementation of PWM.**
     2. How? The author sets up a timer in Normal mode with an overflow interrupt (`TIMER0_OVF_vect`). This interrupt occurs at the start of each PWM cycle. In the ISR he sets the Output Compare Register `OCR0A` to the brightness value, so that for this PWM cycle, the duty cycle is set by this value.
-5. (Chapter 13: Advanced PWM Tricks)  
+5. (Chapter 13: Advanced PWM Tricks) This example is 
