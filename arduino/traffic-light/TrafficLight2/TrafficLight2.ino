@@ -4,7 +4,7 @@ all that will need to change is the Controller.
 */
 #include "IntersectionController.h"
 #include "HardwareController.h"
-#include <Arduino.h> // to silence intellisense
+#include <Arduino.h>
 
 #define PED_BUTTON_PIN 2
 
@@ -13,8 +13,8 @@ LightHardware ew_light {29, 31, 33};
 IntersectionController controller;
 HardwareController hardware(ns_light, ew_light, PED_BUTTON_PIN);
 
-LightStates previous;
-LightStates current;
+LightStates previousLightStates;
+LightStates currentLightStates;
 
 
 // Interrupt configuration
@@ -27,7 +27,7 @@ void onPedestrianButtonPress() {
 
 void setup() {
   controller.begin(millis()); // initialize the controller
-  hardware.begin(); // initialize the hardware (pins)
+  hardware.begin(); // initialize the hardware (the lights)
 
   // Attach the pedestrian button interrupt
   attachInterrupt(
@@ -36,7 +36,7 @@ void setup() {
     FALLING
   );
 
-  previous = controller.get_light_states();
+  previousLightStates = controller.get_light_states();
 }
 
 void loop() {
@@ -56,11 +56,11 @@ void loop() {
   // Mutate internal FSM state
   controller.update_state(millis());
   // Map current state to outputs
-  current = controller.get_light_states();
+  currentLightStates = controller.get_light_states();
 
   // Update outputs if the command has changed
-  if (!(current == previous)) {
-    previous = current;
-    hardware.apply_light_states(current);
+  if (!(currentLightStates == previousLightStates)) {
+    previousLightStates = currentLightStates;
+    hardware.apply_light_states(currentLightStates);
   }
 }

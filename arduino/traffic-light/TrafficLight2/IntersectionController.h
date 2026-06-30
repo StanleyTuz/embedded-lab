@@ -9,7 +9,8 @@ class IntersectionController {
 
     public:
         IntersectionController()
-            : state(IntersectionState::NS_GREEN_EW_RED), stateStartTime(0), pedestrianWaiting(false) {};
+            : state(IntersectionState::NS_GREEN_EW_RED), stateStartTime(0), pedestrianWaiting(false)
+            {}
 
         void begin(unsigned long now) {
             stateStartTime = now;

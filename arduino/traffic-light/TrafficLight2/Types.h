@@ -12,9 +12,8 @@ struct LightStates {
   TrafficLightState ns;
   TrafficLightState ew;
 
-  // overloaded operator for easy checking of state changes
+  // Overloaded for comparing overall intersection light states.
   bool operator==(const LightStates& other) const {
-    // second const means that this method won't mutate this
     return ns == other.ns && ew == other.ew;
   }
 };

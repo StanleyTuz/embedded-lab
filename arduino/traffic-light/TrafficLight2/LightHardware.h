@@ -2,14 +2,16 @@
 
 class LightHardware {
     private:
-        int pin_r, pin_y, pin_g;
+        uint8_t pin_r, pin_y, pin_g;
     public:
-        LightHardware(int pin_r, int pin_y, int pin_g)
-            : pin_r(pin_r), pin_y(pin_y), pin_g(pin_g) {
-                pinMode(pin_r, OUTPUT);
-                pinMode(pin_y, OUTPUT);
-                pinMode(pin_g, OUTPUT);
-            }
+        LightHardware(uint8_t pin_r, uint8_t pin_y, uint8_t pin_g)
+            : pin_r(pin_r), pin_y(pin_y), pin_g(pin_g) {}
+
+        void begin() {
+            pinMode(pin_r, OUTPUT);
+            pinMode(pin_y, OUTPUT);
+            pinMode(pin_g, OUTPUT);
+        }
     
         void turn_red() {
             digitalWrite(pin_r, HIGH);

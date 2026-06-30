@@ -10,11 +10,14 @@ class HardwareController {
     int pedestrian_button_pin;
     
   public:
-    HardwareController(const LightHardware& ns, const LightHardware& ew, int pedestrian_button_pin)
+    HardwareController(LightHardware ns, LightHardware ew, int pedestrian_button_pin)
       : ns(ns), ew(ew), pedestrian_button_pin(pedestrian_button_pin) {}
     
     void begin() {
       pinMode(pedestrian_button_pin, INPUT_PULLUP);
+      // begin the LightHardwares
+      ns.begin();
+      ew.begin();
     };
 
     void apply_light_states(const LightStates& ls) {
