@@ -4,14 +4,16 @@
 #include "sine.h"
 #include "triangle.h"
 
-#define F_OUT 440
 #define F_SAMPLE 20000
+#define F_OUT 440
 #define PORT_OUT PORTA
 #define DDR_OUT DDRA
 
-volatile bool do_sample = false;
+#define TEST_PIN 5
+
+// volatile bool do_sample = false;
 uint16_t phase_accumulator = 0;
-uint16_t phase_increment = 1442;
+uint16_t phase_increment = (uint32_t)F_OUT * 65536UL / F_SAMPLE;
 uint8_t phase_index;
 uint8_t value;
 
@@ -42,7 +44,14 @@ void configure_timer1() {
 }
 
 ISR(TIMER1_COMPA_vect) {
-    do_sample = true;
+    // debug pin
+    // do_sample = true;
+
+    // // Take a sample
+    sample_table();
+    
+    // Output the current values
+    output_to_dac();
 }
 
 void setup() {
@@ -50,6 +59,8 @@ void setup() {
 
     // Set output pins to output mode
     DDR_OUT = 0xFFFF;
+    
+    pinMode(TEST_PIN, OUTPUT);
 
     configure_timer1();
 
@@ -63,7 +74,8 @@ void sample_table() {
     // Shift to get the index
     phase_index = (phase_accumulator >> 8);
     // Index into the LUT
-    value = 128 + fullTriangle[phase_index];
+    value = 128 + fullSine[phase_index];
+    // value = (phase_index < 128) ? 255 : 0;
 }
 
 void output_to_dac() {
@@ -72,15 +84,15 @@ void output_to_dac() {
 }
 
 void loop() {
-    if (do_sample) {
-        do_sample = false;
+    // if (do_sample) {
+        // do_sample = false;
 
-        // Take a sample
-        sample_table();
+        // // Take a sample
+        // sample_table();
         
-        // Output the current values
-        output_to_dac();
+        // // Output the current values
+        // output_to_dac();
 
         // Serial.println(value);
-    }
+    // }
 }
