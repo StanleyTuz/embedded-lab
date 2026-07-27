@@ -1,6 +1,6 @@
 #include <avr/io.h> // pins, ports
-// #include "sine.h"
-#include "triangle.h"
+#include "sine.h"
+// #include "triangle.h"
 
 void init_timer() {
     // Set up Timer 0 (8-bit, with PWM support)
@@ -37,8 +37,8 @@ int main() {
             DDRB |= (1 << 7);   // enable output
             phase_accumulator += step_size; // take a step
             wave_step = phase_accumulator >> 8; // take 8 MSBs
-            // pwm_value = fullSine[wave_step];    // LUT
-            pwm_value = fullTriangle[wave_step];
+            pwm_value = fullSine[wave_step];    // LUT
+            // pwm_value = fullTriangle[wave_step];
 
             loop_until_bit_is_set(TIFR0, TOV0); // Wait for PWM cycle
             OCR0A = 128 + pwm_value;

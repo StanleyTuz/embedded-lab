@@ -9,8 +9,6 @@
 #define PORT_OUT PORTA
 #define DDR_OUT DDRA
 
-#define TEST_PIN 5
-
 // volatile bool do_sample = false;
 uint16_t phase_accumulator = 0;
 uint16_t phase_increment = (uint32_t)F_OUT * 65536UL / F_SAMPLE;
@@ -59,8 +57,6 @@ void setup() {
 
     // Set output pins to output mode
     DDR_OUT = 0xFFFF;
-    
-    pinMode(TEST_PIN, OUTPUT);
 
     configure_timer1();
 
@@ -84,15 +80,5 @@ void output_to_dac() {
 }
 
 void loop() {
-    // if (do_sample) {
-        // do_sample = false;
 
-        // // Take a sample
-        // sample_table();
-        
-        // // Output the current values
-        // output_to_dac();
-
-        // Serial.println(value);
-    // }
 }
