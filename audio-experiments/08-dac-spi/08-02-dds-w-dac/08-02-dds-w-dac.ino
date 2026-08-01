@@ -1,9 +1,9 @@
 
 #include <Arduino.h>
 #include <SPI.h>
-#include "sine.h"
+#include "square.h"
 
-#define LUT     fullSine
+#define LUT     fullSquare
 
 #define SPI_PORT    PORTB
 #define NSS_PIN     53  // PB0
